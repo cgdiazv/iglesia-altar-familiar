@@ -43,10 +43,7 @@ export default function PrayerSection() {
           </p>
 
           <div className="pt-2">
-            <Link 
-              href="#contacto" 
-              className="inline-flex items-center space-x-2 font-bold tracking-wide uppercase text-xs sm:text-sm text-white hover:text-primary-gold transition-colors duration-200 border-b-2 border-white/20 hover:border-primary-gold pb-1"
-            >
+            <Link href="/oracion" className="inline-flex items-center space-x-2 font-bold tracking-wide uppercase text-xs sm:text-sm text-white hover:text-primary-gold transition-colors duration-200 border-b-2 border-white/20 hover:border-primary-gold pb-1">
               <span>Enviar una solicitud de oración</span>
               <span className="text-base font-sans">&rarr;</span>
             </Link>

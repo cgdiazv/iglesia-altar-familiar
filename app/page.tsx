@@ -12,9 +12,9 @@ export default function Home() {
       <Navbar />
       <main className="flex-grow">
         <HeroSection />
-        <ScheduleSection />
-        <PrayerSection />
         <AboutSection />
+        <PrayerSection />
+        <ScheduleSection />
         <ContactSection /> {/* <-- Sección de Contacto colocada */}
       </main>
       <Footer /> {/* <-- Cierre estructural con el Footer */}

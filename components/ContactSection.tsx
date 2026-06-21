@@ -1,8 +1,48 @@
 "use client";
 
-import { MapPin, Mail, Send } from 'lucide-react';
+import { useState } from 'react';
+import { MapPin, Mail, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function ContactSection() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const [status, setStatus] = useState<{
+    type: 'idle' | 'loading' | 'success' | 'error';
+    message?: string;
+  }>({ type: 'idle' });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus({ type: 'loading' });
+
+    try {
+      const response = await fetch('/api/send-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Ocurrió un problema al enviar tu mensaje.');
+      }
+
+      setStatus({ type: 'success' });
+      setFormData({ name: '', email: '', subject: '', message: '' }); // Limpia campos
+    } catch (error: any) {
+      setStatus({ 
+        type: 'error', 
+        message: error.message || 'No se pudo procesar tu mensaje. Intenta de nuevo.' 
+      });
+    }
+  };
+
   return (
     <section id="contacto" className="w-full bg-slate-50 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
       <div className="max-w-7xl mx-auto">
@@ -15,28 +55,86 @@ export default function ContactSection() {
               <p className="text-sm text-slate-500 mt-1">¿Tienes alguna duda, petición de oración o simplemente quieres saludar? Déjanos tu mensaje.</p>
             </div>
 
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            {/* Mensajes de feedback */}
+            {status.type === 'success' && (
+              <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl flex items-start space-x-3 text-sm">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-bold">¡Mensaje enviado con éxito!</p>
+                  <p className="text-emerald-700 mt-0.5">Gracias por comunicarte con nosotros. Nos pondremos en contacto contigo lo antes posible.</p>
+                </div>
+              </div>
+            )}
+
+            {status.type === 'error' && (
+              <div className="p-4 bg-rose-50 border border-rose-200 text-rose-900 rounded-xl flex items-start space-x-3 text-sm">
+                <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-bold">Error al procesar</p>
+                  <p className="text-rose-700 mt-0.5">{status.message}</p>
+                </div>
+              </div>
+            )}
+
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre</label>
-                  <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary-gold transition" placeholder="Tu nombre" />
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre *</label>
+                  <input 
+                    type="text" 
+                    required
+                    disabled={status.type === 'loading'}
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary-gold transition disabled:opacity-60" 
+                    placeholder="Tu nombre" 
+                  />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Correo Electrónico</label>
-                  <input type="email" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary-gold transition" placeholder="correo@ejemplo.com" />
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Correo Electrónico *</label>
+                  <input 
+                    type="email" 
+                    required
+                    disabled={status.type === 'loading'}
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary-gold transition disabled:opacity-60" 
+                    placeholder="correo@ejemplo.com" 
+                  />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Asunto</label>
-                <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary-gold transition" placeholder="Asunto" />
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Asunto *</label>
+                <input 
+                  type="text" 
+                  required
+                  disabled={status.type === 'loading'}
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary-gold transition disabled:opacity-60" 
+                  placeholder="Asunto de tu mensaje" 
+                />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Mensaje</label>
-                <textarea rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary-gold transition resize-none" placeholder="Escribe aquí tu mensaje..."></textarea>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Mensaje *</label>
+                <textarea 
+                  rows={4} 
+                  required
+                  disabled={status.type === 'loading'}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary-gold transition resize-none disabled:opacity-60" 
+                  placeholder="Escribe aquí tu mensaje..."
+                ></textarea>
               </div>
-              <button type="submit" className="w-full sm:w-auto bg-primary-gold text-white font-bold px-6 py-3 rounded-full text-sm hover:bg-primary-gold-hover transition shadow-sm flex items-center justify-center space-x-2">
-                <span>Enviar Mensaje</span>
-                <Send className="w-4 h-4" />
+              
+              <button 
+                type="submit" 
+                disabled={status.type === 'loading'}
+                className="w-full sm:w-auto bg-primary-gold text-white font-bold px-6 py-3 rounded-full text-sm hover:bg-primary-gold-hover transition shadow-sm flex items-center justify-center space-x-2 disabled:opacity-50 cursor-pointer"
+              >
+                <span>{status.type === 'loading' ? 'Enviando...' : 'Enviar Mensaje'}</span>
+                <Send className={`w-4 h-4 ${status.type === 'loading' ? 'animate-pulse' : ''}`} />
               </button>
             </form>
           </div>
