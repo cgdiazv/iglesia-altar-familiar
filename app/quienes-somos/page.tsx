@@ -46,14 +46,14 @@ export default function QuienesSomosPage() {
               <div className="relative w-full max-w-md aspect-[3/4] rounded-3xl overflow-hidden shadow-xl border-4 border-slate-50 group">
                 <Image
                   src="/pastores.webp"
-                  alt="Pastores Wilmer y Elena Hercules"
+                  alt="Pastores Wilmer y María Elena Hércules"
                   fill
                   className="object-cover object-top transition-transform duration-700 group-hover:scale-102"
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 <div className="absolute bottom-6 left-6 text-white">
-                  <p className="text-xl font-bold">Wilmer y Elena Hercules</p>
+                  <p className="text-xl font-bold">Wilmer y María Elena Hércules</p>
                   <p className="text-xs text-primary-gold uppercase tracking-wider font-semibold mt-0.5">Pastores Principales</p>
                 </div>
               </div>

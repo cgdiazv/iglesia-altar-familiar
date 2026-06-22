@@ -42,14 +42,14 @@ export default function AboutSection() {
               <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-primary-gold/30 group-hover:border-primary-gold transition-colors duration-300">
                 <Image
                   src="/pastores.webp"
-                  alt="Pastores Wilmer y Elena Hercules"
+                  alt="Pastores Wilmer y María Elena Hércules"
                   fill
                   className="object-cover object-top"
                 />
               </div>
               <div>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Liderazgo de la Comunidad</p>
-                <p className="text-base font-bold text-slate-800">Wilmer y Elena Hercules</p>
+                <p className="text-base font-bold text-slate-800">Wilmer y María Elena Hércules</p>
                 <p className="text-xs text-gray-500">Pastores Principales</p>
               </div>
             </div>
