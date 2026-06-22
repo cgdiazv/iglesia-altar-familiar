@@ -156,7 +156,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-slate-900">Nuestra Ubicación</h4>
-                  <p className="text-sm text-slate-500 mt-0.5">Visítanos en nuestras reuniones semanales. Pregunta por nuestros accesos principales.</p>
+                  <p className="text-sm text-slate-500 mt-0.5">Visítanos en nuestras reuniones semanales. Pregunta por nuestros accesos en línea.</p>
                 </div>
               </div>
               
@@ -166,7 +166,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-slate-900">Correo Electrónico</h4>
-                  <p className="text-sm text-slate-500 mt-0.5">info@iglesiaaltarfamiliar.com</p>
+                  <p className="text-sm text-slate-500 mt-0.5">info@iglesiaaltarfamiliar.org</p>
                 </div>
               </div>
             </div>
